@@ -1,6 +1,15 @@
 package br.com.fiap;
 
+import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.repository.DepositoRepository;
+import br.com.fiap.domain.repository.EstoqueRepository;
+import br.com.fiap.domain.repository.ProdutoRepository;
+import br.com.fiap.domain.service.EstoqueService;
+import br.com.fiap.domain.service.ProdutoService;
+import br.com.fiap.domain.view.EstoqueView;
+import br.com.fiap.domain.view.ProdutoView;
+
+import java.util.Objects;
 
 public class Main {
 
@@ -21,14 +30,31 @@ public class Main {
 //        ProdutoView view = new ProdutoView();
 //        Produto produto = view.form();
 //        var p = ProdutoService.persist(produto);
-//        if(Objects.nonNull(p)){
+//        if (Objects.nonNull(p)) {
 //            System.out.println(p);
-//        }else{
+//        } else {
 //            System.out.printf("Não foi possível salvar o produto");
 //        }
 
-        DepositoRepository.findAll().forEach(System.out::println);
+        //       DepositoRepository.findAll().forEach(System.out::println);
 
+
+//        var produto = ProdutoRepository.findById(1L); //Produto
+//        var xangai = DepositoRepository.findById(1L); //Deposito
+//        var osasco = DepositoRepository.findById(12L); //Deposito
+//
+//        if (Objects.nonNull(produto) && Objects.nonNull(xangai))
+//            EstoqueService.estocar(produto, xangai, 1L);
+//        if (Objects.nonNull(produto) && Objects.nonNull(osasco))
+//            EstoqueService.estocar(produto, osasco, 1L);
+//
+//        EstoqueRepository repo = new EstoqueRepository();
+//        repo.findAll().forEach(System.out::println);
+
+
+        EstoqueView estoqueView = new EstoqueView();
+        var itens = estoqueView.formEstocar();
+        itens.forEach(System.out::println);
 
     }
 }

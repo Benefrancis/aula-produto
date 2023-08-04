@@ -38,9 +38,6 @@ public class Deposito {
 
     @Override
     public String toString() {
-        return "Deposito{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                '}';
+        return id + " - " + nome;
     }
 }

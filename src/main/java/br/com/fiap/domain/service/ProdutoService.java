@@ -3,6 +3,7 @@ package br.com.fiap.domain.service;
 import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.repository.ProdutoRepository;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ProdutoService {
@@ -13,7 +14,7 @@ public class ProdutoService {
         }
         if (Objects.isNull(p.getDescricao()))
             return null;
-        if (Objects.isNull(p.getValor()))
+        if (Objects.isNull(p.getValor()) || p.getValor().compareTo(BigDecimal.ZERO) <= 0)
             return null;
         return ProdutoRepository.persist(p);
     }
