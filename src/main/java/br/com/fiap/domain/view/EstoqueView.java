@@ -26,13 +26,13 @@ public class EstoqueView {
 
             Produto produto = (Produto) JOptionPane
                     .showInputDialog(null, "Escolha um produto", "Selecao de produtos",
-                            JOptionPane.PLAIN_MESSAGE, null, produtos.toArray(), produtos.get(0));
+                            JOptionPane.QUESTION_MESSAGE, null, produtos.toArray(), produtos.get(0));
 
             if (Objects.isNull(produto)) return produtosEstocados;
 
             Deposito deposito = (Deposito) JOptionPane
                     .showInputDialog(null, "Escolha o Local", "Selecao de Depósito",
-                            JOptionPane.PLAIN_MESSAGE, null, depositos.toArray(), depositos.get(0));
+                            JOptionPane.QUESTION_MESSAGE, null, depositos.toArray(), depositos.get(0));
 
             if (Objects.isNull(deposito)) return produtosEstocados;
 

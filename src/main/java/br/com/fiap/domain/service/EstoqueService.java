@@ -63,6 +63,7 @@ public class EstoqueService {
         //A variável valor será alimentada com os dois últimos dígitos
         var valor = Integer.valueOf(numeroDeSerieSemDigito.substring(numeroDeSerieSemDigito.length() - 2));
         //O operador >> desloca duas casas para a direita do número binário obtido pelo valor
+        //Por Exemplo: O binário do número 72 é 1001000, ao deslocar duas casas para a direita resultará em 0010010 que é igual a 18 em números decimais.
         var n = (valor >> 2);
         return doisDigitos.format(n);
     }
