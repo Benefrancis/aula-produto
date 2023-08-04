@@ -1,11 +1,6 @@
 package br.com.fiap;
 
-import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.repository.DepositoRepository;
-import br.com.fiap.domain.service.ProdutoService;
-import br.com.fiap.domain.view.ProdutoView;
-
-import java.util.Objects;
 
 public class Main {
 
