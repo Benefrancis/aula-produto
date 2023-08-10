@@ -35,19 +35,19 @@ public class ProdutoRepository {
         return null;
     }
 
-    public static List<Produto> findByName(String texto){
+    public static List<Produto> findByName(String texto) {
         List<Produto> retorno = new ArrayList<>();
-        for(Produto p: produtos){
-            if(p.getNome().equalsIgnoreCase( texto )){
+        for (Produto p : produtos) {
+            if (p.getNome().equalsIgnoreCase( texto )) {
                 retorno.add( p );
             }
         }
         return retorno;
     }
 
-    public static Produto persist(Produto p){
-        p.setId(produtos.size()+1L);
-        produtos.add(p);
+    public static Produto persist(Produto p) {
+        p.setId( produtos.size() + 1L );
+        produtos.add( p );
         return p;
     }
 
