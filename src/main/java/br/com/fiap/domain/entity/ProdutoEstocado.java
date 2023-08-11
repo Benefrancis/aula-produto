@@ -24,9 +24,9 @@ public class ProdutoEstocado {
     }
 
     public ProdutoEstocado(Long id, Produto produto, Deposito deposito, LocalDateTime entrada, LocalDateTime saida, String numeroDeSerie) {
-        this.setId(id);
-        this.setProduto(produto);
-        this.setDeposito(deposito);
+        this.setId( id );
+        this.setProduto( produto );
+        this.setDeposito( deposito );
         this.entrada = entrada;
         this.saida = saida;
         this.numeroDeSerie = numeroDeSerie;
@@ -75,12 +75,27 @@ public class ProdutoEstocado {
     }
 
 
+    public ProdutoEstocado setEntrada(LocalDateTime entrada) {
+        this.entrada = entrada;
+        return this;
+    }
+
+    public ProdutoEstocado setSaida(LocalDateTime saida) {
+        this.saida = saida;
+        return this;
+    }
+
+    public ProdutoEstocado setNumeroDeSerie(String numeroDeSerie) {
+        this.numeroDeSerie = numeroDeSerie;
+        return this;
+    }
+
     @Override
     public String toString() {
 
-        String ent = Objects.nonNull(entrada) ? entrada.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)) : "null";
+        String ent = Objects.nonNull( entrada ) ? entrada.format( DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT ) ) : "null";
 
-        String sai = Objects.nonNull(saida) ? saida.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)) : "null";
+        String sai = Objects.nonNull( saida ) ? saida.format( DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT ) ) : "null";
 
         return "ProdutoEstocado{" +
                 "id=" + id +

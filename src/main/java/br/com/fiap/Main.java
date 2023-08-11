@@ -1,15 +1,6 @@
 package br.com.fiap;
 
-import br.com.fiap.domain.entity.Produto;
-import br.com.fiap.domain.repository.DepositoRepository;
-import br.com.fiap.domain.repository.EstoqueRepository;
-import br.com.fiap.domain.repository.ProdutoRepository;
-import br.com.fiap.domain.service.EstoqueService;
-import br.com.fiap.domain.service.ProdutoService;
-import br.com.fiap.domain.view.EstoqueView;
-import br.com.fiap.domain.view.ProdutoView;
-
-import java.util.Objects;
+import br.com.fiap.domain.view.ProdutoEstocadoView;
 
 public class Main {
 
@@ -56,12 +47,8 @@ public class Main {
 //        var itens = estoqueView.formEstocar();
 //        itens.forEach(System.out::println);
 
-        EstoqueRepository repo = new EstoqueRepository();
-
-        var prod = ProdutoRepository.findById( 1L );
-        var itens = repo.findByProduto( prod );
-
-        itens.forEach( System.out::println );
+        ProdutoEstocadoView view = new ProdutoEstocadoView();
+        view.formEstocar().forEach( System.out::println );
 
     }
 }
