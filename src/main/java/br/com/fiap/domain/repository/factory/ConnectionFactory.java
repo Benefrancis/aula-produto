@@ -9,11 +9,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Classe com padr�o Singleton e Factory que fornece connection.
+ * Classe com padrao Singleton e Factory que fornece connection.
  * <p>
- * Caso o usu�rio tenha setado o parametro
+ * Caso o usuario tenha setado o parametro
  * datasource.drop-delete-table-and-dados como true, a estrutura do banco de
- * dados ser� recriada com valores padr�o.
+ * dados sera recriada com valores padrao.
  *
  * @author Francis
  */
@@ -128,7 +128,7 @@ public final class ConnectionFactory {
                 }
 
                 if (this.getUser() == null || this.getUser().equals( "" )) {
-                    System.out.println( "\nInforme os dados de conex�o no arquivo application.properties [ datasource.username ]" );
+                    System.out.println( "\nInforme os dados de conexao no arquivo application.properties [ datasource.username ]" );
                     throw new RuntimeException( "Informe os dados de conexao no arquivo application.properties [ datasource.username ]" );
                 }
 

@@ -37,7 +37,7 @@ public abstract class JDBCRepository {
 
     public void closeConnection() {
         try {
-            // se a conex�o n�o estiver fechada, feche-a
+            // se a conexao nao estiver fechada, feche-a
             if (!this.connection.isClosed()) {
                 this.connection.close();
             }
