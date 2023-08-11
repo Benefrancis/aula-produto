@@ -52,9 +52,16 @@ public class Main {
 //        repo.findAll().forEach(System.out::println);
 
 
-        EstoqueView estoqueView = new EstoqueView();
-        var itens = estoqueView.formEstocar();
-        itens.forEach(System.out::println);
+//        EstoqueView estoqueView = new EstoqueView();
+//        var itens = estoqueView.formEstocar();
+//        itens.forEach(System.out::println);
+
+        EstoqueRepository repo = new EstoqueRepository();
+
+        var prod = ProdutoRepository.findById( 1L );
+        var itens = repo.findByProduto( prod );
+
+        itens.forEach( System.out::println );
 
     }
 }
