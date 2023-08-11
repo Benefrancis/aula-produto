@@ -40,7 +40,7 @@ public class DepositoRepository extends JDBCRepository implements Repository<Dep
                     retorno.add( new Deposito( rs.getLong( "ID" ), rs.getString( "NOME" ) ) );
                 }
             } else {
-                System.out.println( "Não temos "+clazz+" cadastrado no banco de dados" );
+                System.out.println( "Não temos " + clazz + " cadastrado no banco de dados" );
             }
             return retorno;
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class DepositoRepository extends JDBCRepository implements Repository<Dep
                 if (rs != null)
                     rs.close();
             } catch (SQLException e) {
-                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz);
+                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz );
             }
             if (this.connection != null)
                 this.closeConnection();
