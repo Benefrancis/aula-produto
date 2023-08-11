@@ -18,7 +18,6 @@ public class ProdutoEstocadoService {
     public static List<ProdutoEstocado> entrada(Produto produto, Deposito deposito, Long qtd) {
         //Lista para retorno
         List<ProdutoEstocado> lista = new ArrayList<>();
-
         long cont = 0L;
         while (cont < qtd) {
             var pe = new ProdutoEstocado();
@@ -27,9 +26,7 @@ public class ProdutoEstocadoService {
             if (Objects.nonNull( pe )) lista.add( pe );
             cont++;
         }
-
         return lista;
-
     }
 
 
