@@ -1,55 +1,217 @@
 package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.Produto;
+import br.com.fiap.domain.repository.abstracao.JDBCRepository;
+import br.com.fiap.domain.repository.abstracao.Repository;
 
-import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-public class ProdutoRepository {
+public class ProdutoRepository extends JDBCRepository implements Repository<Produto, Long> {
 
-    private static List<Produto> produtos;
-
-    static {
-        Produto celular = new Produto( 1L, "Iphone", "14 PRO MAX", BigDecimal.valueOf( 14999.99 ) );
-        Produto tablet = new Produto( 2L, "Ipad", "Topzera", BigDecimal.valueOf( 8999.99 ) );
-        Produto pendrive = new Produto( 3L, "Pendrive Kingston", "Kingston 2TB", BigDecimal.valueOf( 2999.99 ) );
-        Produto ssd = new Produto( 4L, "SSD KINGSTON", "Kingston SSD 4TB", BigDecimal.valueOf( 5999.99 ) );
-        Produto celular2 = new Produto( 5L, "Iphone", "11 PRO MAX", BigDecimal.valueOf( 4999.99 ) );
-        produtos = new ArrayList<>();
-        produtos.addAll( Arrays.asList( celular, tablet, pendrive, ssd, celular2 ) );
+    public ProdutoRepository() {
+        super();
     }
 
-    public static List<Produto> findAll() {
-        return produtos;
-    }
+    @Override
+    public Collection<Produto> findAll() {
 
-    public static Produto findById(Long id) {
+        var clazz = Produto.class.getSimpleName().toUpperCase();
 
-        for (Produto p : produtos) {
-            if (p.getId().equals( id )) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    public static List<Produto> findByName(String texto) {
         List<Produto> retorno = new ArrayList<>();
-        for (Produto p : produtos) {
-            if (p.getNome().equalsIgnoreCase( texto )) {
-                retorno.add( p );
+
+        String sql = "SELECT * from " + clazz;
+
+        PreparedStatement ps = null;
+
+        ResultSet rs = null;
+
+        try {
+            ps = getConnection().prepareStatement( sql );
+            rs = ps.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+
+                while (rs.next()) {
+                    retorno.add( new Produto( rs.getLong( "ID" ), rs.getString( "NOME" ), rs.getString( "DESCRICAO" ), rs.getBigDecimal( "VALOR" ) ) );
+                }
+
+            } else {
+                System.out.println( "Não temos " + clazz + " cadastrados no banco de dados" );
             }
+            return retorno;
+
+        } catch (SQLException e) {
+            System.out.println( "Não foi possível consultar o " + clazz + ": " + e.getMessage() );
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz );
+            }
+            if (this.connection != null)
+                this.closeConnection();
         }
+
         return retorno;
     }
 
-    public static Produto persist(Produto p) {
-        p.setId( produtos.size() + 1L );
-        produtos.add( p );
-        return p;
+    @Override
+    public Produto findById(Long id) {
+
+        var clazz = Produto.class.getSimpleName().toUpperCase();
+
+        String sql = "SELECT * from " + clazz + " where id  =?";
+
+        PreparedStatement ps = null;
+
+        ResultSet rs = null;
+
+        try {
+            ps = getConnection().prepareStatement( sql );
+            ps.setLong( 1, id );
+
+            rs = ps.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+
+                while (rs.next()) {
+                    return new Produto( rs.getLong( "ID" ), rs.getString( "NOME" ), rs.getString( "DESCRICAO" ), rs.getBigDecimal( "VALOR" ) );
+                }
+
+            } else {
+                System.out.println( clazz + " nao encontrado" );
+            }
+
+            return null;
+
+        } catch (SQLException e) {
+            System.out.println( "Não foi possível consultar o " + clazz + ": " + e.getMessage() );
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz );
+            }
+
+        }
+
+        return null;
+    }
+
+    @Override
+    public Collection<Produto> findByName(String texto) {
+        List<Produto> retorno = new ArrayList<>();
+        if (texto.equals( "" )) return retorno;
+
+        var clazz = Produto.class.getSimpleName().toUpperCase();
+
+
+        String sql = "SELECT * from " + clazz + " where nome  =?";
+
+        System.out.println( sql );
+
+        PreparedStatement ps = null;
+
+        ResultSet rs = null;
+
+        try {
+            ps = getConnection().prepareStatement( sql );
+            ps.setString( 1, texto.toUpperCase() );
+
+            rs = ps.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+
+                while (rs.next()) {
+                    retorno.add( new Produto( rs.getLong( "ID" ), rs.getString( "NOME" ), rs.getString( "DESCRICAO" ), rs.getBigDecimal( "VALOR" ) ) );
+                }
+
+            } else {
+                System.out.println( clazz + " nao encontrado" );
+            }
+
+            return retorno;
+
+        } catch (SQLException e) {
+            System.out.println( "Não foi possível consultar o " + clazz + ": " + e.getMessage() );
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz );
+            }
+
+        }
+
+        return retorno;
+    }
+
+    @Override
+    public Produto persist(Produto p) {
+
+        var clazz = Produto.class.getSimpleName().toUpperCase();
+
+        String sql = "INSERT INTO " + clazz + " (NOME, DESCRICAO, VALOR) VALUES (?,?,?)";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        System.out.println( sql );
+
+        try {
+            ps = getConnection().prepareStatement( sql, ps.RETURN_GENERATED_KEYS );
+
+            ps.setString( 1, p.getNome().toUpperCase() );
+            ps.setString( 2, p.getDescricao() );
+            ps.setBigDecimal( 3, p.getValor() );
+
+            ps.execute();
+            rs = ps.getGeneratedKeys();
+
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    p.setId( rs.getLong( 1 ) );
+                }
+                return p;
+            } else {
+                System.out.println( clazz + " nao encontrado" );
+            }
+        } catch (SQLException e) {
+            System.out.println( "Erro ao salvar " + clazz + " no banco de dados: " + e.getMessage() );
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+            } catch (SQLException e) {
+                System.out.println( "Erro ao tentar fechar o Statement de " + clazz );
+            }
+        }
+
+        return null;
     }
 
 
+    @Override
+    public Produto update(Produto produto) {
+        return null;
+    }
+
+    @Override
+    public void delete(Produto produto) {
+
+    }
 }

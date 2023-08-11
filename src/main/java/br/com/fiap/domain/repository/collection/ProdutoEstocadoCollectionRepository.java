@@ -1,14 +1,16 @@
-package br.com.fiap.domain.repository;
+package br.com.fiap.domain.repository.collection;
 
 import br.com.fiap.domain.entity.Deposito;
 import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.entity.ProdutoEstocado;
+import br.com.fiap.domain.repository.collection.DepositoCollectionRepository;
+import br.com.fiap.domain.repository.collection.ProdutoCollectionRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoEstocadoRepository {
+public class ProdutoEstocadoCollectionRepository {
 
     private static List<ProdutoEstocado> itens;
 
@@ -17,8 +19,8 @@ public class ProdutoEstocadoRepository {
 
         ProdutoEstocado prod1 = new ProdutoEstocado();
         prod1.setId(1L)
-                .setDeposito(DepositoRepository.findById(1L))
-                .setProduto(ProdutoRepository.findById(1L))
+                .setDeposito( DepositoCollectionRepository.findById(1L))
+                .setProduto( ProdutoCollectionRepository.findById(1L))
                 .setEntrada(LocalDateTime.now())
                 .setNumeroDeSerie("00019");
 

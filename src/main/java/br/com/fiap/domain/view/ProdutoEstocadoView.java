@@ -3,8 +3,8 @@ package br.com.fiap.domain.view;
 import br.com.fiap.domain.entity.Deposito;
 import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.entity.ProdutoEstocado;
-import br.com.fiap.domain.repository.DepositoRepository;
-import br.com.fiap.domain.repository.ProdutoRepository;
+import br.com.fiap.domain.repository.collection.DepositoCollectionRepository;
+import br.com.fiap.domain.repository.collection.ProdutoCollectionRepository;
 import br.com.fiap.domain.service.ProdutoEstocadoService;
 
 import javax.swing.*;
@@ -18,9 +18,9 @@ public class ProdutoEstocadoView {
 
         List<ProdutoEstocado> produtosEstocados = new ArrayList<>();
 
-        var produtos = ProdutoRepository.findAll();
+        var produtos = ProdutoCollectionRepository.findAll();
 
-        var depositos = DepositoRepository.findAll();
+        var depositos = DepositoCollectionRepository.findAll();
 
         if (produtos.size() > 0 && depositos.size() > 0) {
 

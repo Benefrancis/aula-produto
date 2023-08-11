@@ -3,7 +3,7 @@ package br.com.fiap.domain.service;
 import br.com.fiap.domain.entity.Deposito;
 import br.com.fiap.domain.entity.Produto;
 import br.com.fiap.domain.entity.ProdutoEstocado;
-import br.com.fiap.domain.repository.ProdutoEstocadoRepository;
+import br.com.fiap.domain.repository.collection.ProdutoEstocadoCollectionRepository;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ public class ProdutoEstocadoService {
         pe.setEntrada( LocalDateTime.now() );
         pe.setSaida( null );
         pe.setNumeroDeSerie( gerarNumeroDeSerie( pe ) );
-        return ProdutoEstocadoRepository.persist( pe );
+        return ProdutoEstocadoCollectionRepository.persist( pe );
     }
 
     private static String gerarNumeroDeSerie(ProdutoEstocado pe) {

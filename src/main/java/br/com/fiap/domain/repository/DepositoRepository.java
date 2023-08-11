@@ -1,52 +1,127 @@
 package br.com.fiap.domain.repository;
 
 import br.com.fiap.domain.entity.Deposito;
+import br.com.fiap.domain.repository.abstracao.JDBCRepository;
+import br.com.fiap.domain.repository.abstracao.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-public class DepositoRepository {
+public class DepositoRepository extends JDBCRepository implements Repository<Deposito, Long> {
 
-    private static List<Deposito> depositos;
-
-    static {
-        Deposito xangai = new Deposito(1L, "Xangai");
-        Deposito buenosAires = new Deposito(2L, "Buenos Aires");
-        Deposito barcelona = new Deposito(3L, "Barcelona");
-        Deposito caracas = new Deposito(4L, "Caracas");
-        Deposito quebec = new Deposito(5L, "Quebec");
-        Deposito compton = new Deposito(6L, "Compton");
-        Deposito paraguai = new Deposito(7L, "Paraguai");
-        Deposito merces = new Deposito(8L, "Mercês");
-        Deposito pelourinho = new Deposito(9L, "Pelourinho");
-        Deposito joanesburgo = new Deposito(10L, "Joanesburgo");
-        Deposito dakar = new Deposito(11L, "Dakar");
-        Deposito osasco = new Deposito(12L, "Osasco");
-        Deposito pelotas = new Deposito(13L, "Pelotas");
-        depositos = new ArrayList<>();
-        depositos.addAll(Arrays.asList(xangai, buenosAires, barcelona, caracas, quebec, compton, paraguai, merces, pelourinho, joanesburgo, dakar, osasco, pelotas));
+    public DepositoRepository() {
+        super();
     }
 
-    public static List<Deposito> findAll() {
-        return depositos;
-    }
 
-    public static Deposito findById(Long id) {
-        for (Deposito d : depositos) {
-            if (d.getId().equals(id)) return d;
+    @Override
+    public Collection<Deposito> findAll() {
+
+        var clazz = Deposito.class.getSimpleName().toUpperCase();
+
+        List<Deposito> retorno = new ArrayList<>();
+
+        String sql = "SELECT * from " + clazz;
+
+        PreparedStatement ps = null;
+
+        ResultSet rs = null;
+
+        try {
+            ps = getConnection().prepareStatement( sql );
+            rs = ps.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    retorno.add( new Deposito( rs.getLong( "ID" ), rs.getString( "NOME" ) ) );
+                }
+            } else {
+                System.out.println( "Não temos "+clazz+" cadastrado no banco de dados" );
+            }
+            return retorno;
+        } catch (SQLException e) {
+            System.out.println( "Não foi possível consultar os depositos: " + e.getMessage() );
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz);
+            }
+            if (this.connection != null)
+                this.closeConnection();
         }
+
+        return retorno;
+    }
+
+    @Override
+    public Deposito findById(Long id) {
+
+        var clazz = Deposito.class.getSimpleName().toUpperCase();
+
+        String sql = "SELECT * from " + clazz + " where id  =?";
+
+        PreparedStatement ps = null;
+
+        ResultSet rs = null;
+
+        try {
+            ps = getConnection().prepareStatement( sql );
+            ps.setLong( 1, id );
+
+            rs = ps.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    return new Deposito( rs.getLong( "ID" ), rs.getString( "NOME" ) );
+                }
+            } else {
+                System.out.println( clazz + " nao encontrado" );
+            }
+
+            return null;
+
+        } catch (SQLException e) {
+            System.out.println( "Não foi possível consultar o " + clazz + ": " + e.getMessage() );
+        } finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                System.out.println( "Erro ao tentar fechar o Statment ou o ResultSet de " + clazz );
+            }
+
+        }
+
         return null;
     }
 
-    public static List<Deposito> findByName(String texto) {
-        return depositos.stream().filter(deposito -> deposito.getNome().equalsIgnoreCase(texto)).toList();
+    @Override
+    public Collection<Deposito> findByName(String texto) {
+        return null;
     }
 
-    public static Deposito persist(Deposito d){
-        d.setId(depositos.size()+1L);
-        depositos.add(d);
-        return d;
+    @Override
+    public Deposito persist(Deposito deposito) {
+        return null;
     }
 
+    @Override
+    public Deposito update(Deposito deposito) {
+        return null;
+    }
+
+    @Override
+    public void delete(Deposito deposito) {
+
+    }
 }
