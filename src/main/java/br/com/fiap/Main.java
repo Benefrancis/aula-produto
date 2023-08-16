@@ -1,19 +1,22 @@
 package br.com.fiap;
 
 import br.com.fiap.domain.entity.Produto;
+import br.com.fiap.domain.entity.ProdutoEstocado;
 import br.com.fiap.domain.repository.ProdutoRepository;
+import br.com.fiap.domain.view.ProdutoEstocadoView;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        var repo = new ProdutoRepository();
-        repo.findByName( "Camisa do Corinthians" ).forEach( System.out::println );
+        ProdutoEstocadoView view = new ProdutoEstocadoView();
+        List<ProdutoEstocado> estocados = view.formEstocar();
 
-        var produto = new Produto( null, "Camisa Corinthians", "Campeão Brasileiro", BigDecimal.valueOf( 299.99 ) );
-        System.out.println( repo.persist( produto ) );
+        estocados.forEach(System.out::println);
+
 
     }
 }

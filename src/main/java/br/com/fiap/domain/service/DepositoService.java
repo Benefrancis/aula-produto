@@ -1,14 +1,16 @@
 package br.com.fiap.domain.service;
 
 import br.com.fiap.domain.entity.Deposito;
-import br.com.fiap.domain.repository.collection.DepositoCollectionRepository;
+import br.com.fiap.domain.repository.DepositoRepository;
 
 import java.util.Objects;
 
 public class DepositoService {
 
-    public static Deposito persist(Deposito d) {
+    static DepositoRepository repo = new DepositoRepository();
+
+    public Deposito persist(Deposito d) {
         if (Objects.isNull(d.getNome())) return null;
-        return DepositoCollectionRepository.persist(d);
+        return repo.persist(d);
     }
 }
