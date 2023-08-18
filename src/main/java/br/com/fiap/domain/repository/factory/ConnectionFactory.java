@@ -46,7 +46,7 @@ public final class ConnectionFactory {
     }
 
     /**
-     * �nico meio de se conseguir uma inst�ncia
+     * Único meio de se conseguir uma instância
      *
      * @return
      * @throws SQLException
@@ -126,7 +126,7 @@ public final class ConnectionFactory {
                 }
 
                 if (Objects.isNull( this.getUrl() ) || this.getUrl().isBlank()) {
-                    System.out.println( "\nInforme os dados de conex�o no arquivo application.properties [ datasource.url ]" );
+                    System.out.println( "\nInforme os dados de conexao no arquivo application.properties [ datasource.url ]" );
                     throw new RuntimeException( "Informe os dados de conexao no arquivo application.properties [ datasource.url ]" );
                 }
 
