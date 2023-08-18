@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -51,17 +52,18 @@ public final class ConnectionFactory {
      * @throws SQLException
      * @throws IOException
      */
-    public static ConnectionFactory getInstance() throws SQLException {
+    public static ConnectionFactory build() {
 
         ConnectionFactory result = instance;
 
-        if (result != null) {
+        if (Objects.nonNull( result )) {
             return result;
         }
 
         Properties prop = new Properties();
         FileInputStream file = null;
         String debugar = "";
+
         try {
             file = new FileInputStream( "src/main/resources/application.properties" );
             prop.load( file );
@@ -71,6 +73,7 @@ public final class ConnectionFactory {
             String pass = prop.getProperty( "datasource.password" );
             String driver = prop.getProperty( "datasource.driver-class-name" );
             debugar = prop.getProperty( "datasource.debugar" );
+
             file.close();
 
             if (debugar != null && debugar.equals( "true" )) {
@@ -93,7 +96,7 @@ public final class ConnectionFactory {
         } catch (IOException e) {
             System.out.println( "Nao encontramos propriedade com o nome: " + e.getMessage() );
         } finally {
-            if (debugar != null && debugar.equals( "true" ))
+            if (Objects.nonNull( debugar ) && debugar.equals( "true" ))
                 System.out.println( "\n**************************************************************************\n" );
         }
         return null;
@@ -107,27 +110,27 @@ public final class ConnectionFactory {
      * @see DriverManager#getConnection(String)
      * @see Class#forName(String)
      */
-    public Connection getConnection() {
+    public Connection createConnection() {
 
         synchronized (Connection.class) {
 
             try {
 
-                if (this.conexao != null && !this.conexao.isClosed()) {
+                if (Objects.nonNull( this.conexao ) && !this.conexao.isClosed()) {
                     return this.conexao;
                 }
 
-                if (this.getDriver() == null || this.getDriver().equals( "" )) {
+                if (Objects.isNull( this.getDriver() ) || this.getDriver().isBlank()) {
                     System.out.println( "\nInforme os dados de conexao no arquivo application.properties [ datasource.driver-class-name ]" );
                     throw new RuntimeException( "Informe os dados de conexao no arquivo application.properties [ datasource.driver-class-name ]" );
                 }
 
-                if (this.getUrl() == null || this.getUrl().equals( "" )) {
+                if (Objects.isNull( this.getUrl() ) || this.getUrl().isBlank()) {
                     System.out.println( "\nInforme os dados de conex�o no arquivo application.properties [ datasource.url ]" );
                     throw new RuntimeException( "Informe os dados de conexao no arquivo application.properties [ datasource.url ]" );
                 }
 
-                if (this.getUser() == null || this.getUser().equals( "" )) {
+                if (Objects.isNull( this.getUser() ) || this.getUser().isBlank()) {
                     System.out.println( "\nInforme os dados de conexao no arquivo application.properties [ datasource.username ]" );
                     throw new RuntimeException( "Informe os dados de conexao no arquivo application.properties [ datasource.username ]" );
                 }
@@ -140,7 +143,7 @@ public final class ConnectionFactory {
                 System.out.println( "Nao foi possivel encotrar o driver de conexao: " + e.getMessage() );
                 System.exit( 1 );
             } catch (SQLException sqle) {
-                System.out.println( "Erro nos parametros da conex�o com o banco de dados :" + sqle.getMessage() );
+                System.out.println( "Erro nos parametros da conexão com o banco de dados :" + sqle.getMessage() );
                 System.exit( 1 );
             }
             return this.conexao;

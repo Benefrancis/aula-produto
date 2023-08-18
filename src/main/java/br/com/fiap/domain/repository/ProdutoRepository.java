@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ProdutoRepository implements Repository<Produto, Long> {
@@ -30,7 +29,7 @@ public class ProdutoRepository implements Repository<Produto, Long> {
         ResultSet rs = null;
 
         try {
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
             rs = ps.executeQuery();
 
             if (rs.isBeforeFirst()) {
@@ -72,7 +71,7 @@ public class ProdutoRepository implements Repository<Produto, Long> {
         ResultSet rs = null;
 
         try {
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
             ps.setLong(1, id);
 
             rs = ps.executeQuery();
@@ -124,7 +123,7 @@ public class ProdutoRepository implements Repository<Produto, Long> {
         ResultSet rs = null;
 
         try {
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
             ps.setString(1, texto.toUpperCase());
 
             rs = ps.executeQuery();
@@ -171,7 +170,7 @@ public class ProdutoRepository implements Repository<Produto, Long> {
         System.out.println(sql);
 
         try {
-            ps = getConnection().prepareStatement(sql, ps.RETURN_GENERATED_KEYS);
+            ps = open().prepareStatement(sql, ps.RETURN_GENERATED_KEYS);
 
             ps.setString(1, p.getNome().toUpperCase());
             ps.setString(2, p.getDescricao());

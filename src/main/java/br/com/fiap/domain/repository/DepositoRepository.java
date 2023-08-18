@@ -29,7 +29,7 @@ public class DepositoRepository implements Repository<Deposito, Long> {
         ResultSet rs = null;
 
         try {
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
             rs = ps.executeQuery();
 
             if (rs.isBeforeFirst()) {
@@ -67,7 +67,7 @@ public class DepositoRepository implements Repository<Deposito, Long> {
         ResultSet rs = null;
 
         try {
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
             ps.setLong(1, id);
 
             rs = ps.executeQuery();
@@ -118,7 +118,7 @@ public class DepositoRepository implements Repository<Deposito, Long> {
         System.out.println(sql);
 
         try {
-            ps = getConnection().prepareStatement(sql, ps.RETURN_GENERATED_KEYS);
+            ps = open().prepareStatement(sql, ps.RETURN_GENERATED_KEYS);
 
             ps.setString(1, deposito.getNome().toUpperCase());
 

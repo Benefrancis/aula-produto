@@ -8,16 +8,9 @@ import java.util.List;
 
 public interface Repository<T, U> {
 
-
-    default Connection getConnection() throws SQLException {
-        try {
-            return ConnectionFactory.getInstance().getConnection();
-        } catch (SQLException e) {
-            System.out.println("Erro nos parametros da conexao com o banco de dados :" + e.getMessage());
-        }
-        return null;
+    default Connection open() throws SQLException {
+        return ConnectionFactory.build().createConnection();
     }
-
 
     public List<T> findAll();
 

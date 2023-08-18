@@ -33,7 +33,7 @@ public class ProdutoEstocadoRepository implements Repository<ProdutoEstocado, Lo
         ResultSet rs = null;
 
         try {
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
             rs = ps.executeQuery();
 
             if (rs.isBeforeFirst()) {
@@ -78,7 +78,7 @@ public class ProdutoEstocadoRepository implements Repository<ProdutoEstocado, Lo
 
         try {
 
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
 
             ps.setLong(1, id);
 
@@ -126,7 +126,7 @@ public class ProdutoEstocadoRepository implements Repository<ProdutoEstocado, Lo
 
         try {
 
-            ps = getConnection().prepareStatement(sql);
+            ps = open().prepareStatement(sql);
 
             ps.setString(1, texto.toUpperCase());
 
@@ -174,7 +174,7 @@ public class ProdutoEstocadoRepository implements Repository<ProdutoEstocado, Lo
 
         try {
 
-            ps = getConnection().prepareStatement(sql, ps.RETURN_GENERATED_KEYS);
+            ps = open().prepareStatement(sql, ps.RETURN_GENERATED_KEYS);
 
             ps.setLong(1, pe.getProduto().getId());
             ps.setLong(2, pe.getDeposito().getId());
